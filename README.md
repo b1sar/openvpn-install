@@ -1,6 +1,7 @@
 # openvpn-install
 
 Debian, Ubuntu, Fedora, CentOS ve Arch Linux işletim sistemleri için OpenVPN kurulum scripti.
+
 Bu script [angristan ve katkı sağlayan insanların](https://github.com/angristan/openvpn-install) geliştirdiği scriptin ingilizce bilmeyen Türk kullanıcıları için türkçeleştirilmiş versiyonudur. Kendilerine büyük emekleri için teşekkürler.
 
 Script'teki ingilizce kısımları aşama aşama türkçeye çevirmeyi ve ek olarak bir kaç VPS firmasını kullanarak OpenVPN'in nasıl kurulabileceğini gösteren bir kaç tutorial eklemeyi düşünüyorum.
@@ -25,12 +26,16 @@ Sonrasında çalıştırın:
 Scripti çalıştırmak için root yetkilerine sahip olduğunuza ve TUN modülünün etkin olduğundan emin olun.
 
 İlk çalıştırdığınızda her adımda sorulan sorulara cevap vererek VPN sunucunuzun kurulumunu gerçekleştirebilirsiniz.
-Kurulum tamamlandıktan sonra yeni kullanıcı eklemek, varolan kullanıcıları silmek veya OpenVPN'i kaldırmak için scripti tekrar çalıştırmanız yeterli olacaktır. Tekrar çalıştırdığınızda aşağıdaki seçeneklerden birini seçerek istediğiniz işlemi gerçekleştirebilirsiniz.
+Kurulum tamamlandıktan sonra yeni kullanıcı eklemek, varolan kullanıcıları silmek veya OpenVPN'i kaldırmak için scripti tekrar çalıştırmanız yeterli olacaktır. 
+
+Tekrar çalıştırdığınızda aşağıdaki seçeneklerden birini seçerek istediğiniz işlemi gerçekleştirebilirsiniz.
 - Add a client
 - Remove a client
 - Uninstall OpenVPN
 
 Tekrar çalıştırdıktan sonra ana dizininizde `.ovpn` dosyalar oluşturulacaktır, bunlar kullanıcı konfigürasyon dosyalarıdır. scp veya benzer bir program kullanarak uzak sunucunuzdan bu dosyaları indirdikten sonra OpenVPN uygulamanıza yükleyerek VPN kullanmaya başlayabilirsiniz.
+
+---
 
 If you have any question, head to the [FAQ](#faq) first. Please read everything before opening an issue.
 
