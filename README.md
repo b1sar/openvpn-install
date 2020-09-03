@@ -1,45 +1,42 @@
 # openvpn-install
 
-![Test](https://github.com/angristan/openvpn-install/workflows/Test/badge.svg) ![Lint](https://github.com/angristan/openvpn-install/workflows/Lint/badge.svg)
+Debian, Ubuntu, Fedora, CentOS ve Arch Linux işletim sistemleri için OpenVPN kurulum scripti.
+Bu script [angristan ve katkı sağlayan insanların](https://github.com/angristan/openvpn-install) geliştirdiği scriptin ingilizce bilmeyen Türk kullanıcıları için türkçeleştirilmiş versiyonudur. Kendilerine büyük emekleri için teşekkürler.
 
-OpenVPN installer for Debian, Ubuntu, Fedora, CentOS and Arch Linux.
+Script'teki ingilizce kısımları aşama aşama türkçeye çevirmeyi ve ek olarak bir kaç VPS firmasını kullanarak OpenVPN'in nasıl kurulabileceğini gösteren bir kaç tutorial eklemeyi düşünüyorum.
 
-This script will let you setup your own secure VPN server in just a few seconds.
+Bu scripti kullanarak bir kaç saniye içinde VPN sunucunuzu kurabilirsiniz. Ekstra hiç bir şey yapmanıza gerek yok.
 
-You can also check out [wireguard-install](https://github.com/angristan/wireguard-install), a simple installer for a simpler, safer, faster and more modern VPN protocol.
+## Kullanım
 
-## Usage
-
-First, get the script and make it executable:
+İlk olarak scripti uzak sunucuya indirip çalıştırılabilir hale getirin:
 
 ```bash
-curl -O https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh
+curl -O https://raw.githubusercontent.com/b1sar/openvpn-install/master/openvpn-install.sh
 chmod +x openvpn-install.sh
 ```
 
-Then run it:
+Sonrasında çalıştırın:
 
 ```sh
 ./openvpn-install.sh
 ```
 
-You need to run the script as root and have the TUN module enabled.
+Scripti çalıştırmak için root yetkilerine sahip olduğunuza ve TUN modülünün etkin olduğundan emin olun.
 
-The first time you run it, you'll have to follow the assistant and answer a few questions to setup your VPN server.
-
-When OpenVPN is installed, you can run the script again, and you will get the choice to:
-
+İlk çalıştırdığınızda her adımda sorulan sorulara cevap vererek VPN sunucunuzun kurulumunu gerçekleştirebilirsiniz.
+Kurulum tamamlandıktan sonra yeni kullanıcı eklemek, varolan kullanıcıları silmek veya OpenVPN'i kaldırmak için scripti tekrar çalıştırmanız yeterli olacaktır. Tekrar çalıştırdığınızda aşağıdaki seçeneklerden birini seçerek istediğiniz işlemi gerçekleştirebilirsiniz.
 - Add a client
 - Remove a client
 - Uninstall OpenVPN
 
-In your home directory, you will have `.ovpn` files. These are the client configuration files. Download them from your server and connect using your favorite OpenVPN client.
+Tekrar çalıştırdıktan sonra ana dizininizde `.ovpn` dosyalar oluşturulacaktır, bunlar kullanıcı konfigürasyon dosyalarıdır. scp veya benzer bir program kullanarak uzak sunucunuzdan bu dosyaları indirdikten sonra OpenVPN uygulamanıza yükleyerek VPN kullanmaya başlayabilirsiniz.
 
 If you have any question, head to the [FAQ](#faq) first. Please read everything before opening an issue.
 
 **PLEASE do not send me emails or private messages asking for help.** The only place to get help is the issues. Other people may be able to help and in the future, other users may also run into the same issue as you. My time is not available for free just for you, you're not special.
 
-### Headless install
+### Otomatik Kurulum
 
 It's also possible to run the script headless, e.g. without waiting for user input, in an automated manner.
 
@@ -77,7 +74,7 @@ Password-protected clients are not supported by the headless installation method
 
 The headless install is more-or-less idempotent, in that it has been made safe to run multiple times with the same parameters, e.g. by a state provisioner like Ansible/Terraform/Salt/Chef/Puppet. It will only install and regenerate the Easy-RSA PKI if it doesn't already exist, and it will only install OpenVPN and other upstream dependencies if OpenVPN isn't already installed. It will recreate all local config and re-generate the client file on each headless run.
 
-### Headless User Addition
+### Otomatik Kullanıcı Ekleme
 
 It's also possible to automate the addition of a new user. Here, the key is to provide the (string) value of the `MENU_OPTION` variable along with the remaining mandatory variables before invoking the script.
 
@@ -91,7 +88,7 @@ export PASS="1"
 ./openvpn-install.sh
 ```
 
-## Features
+## Özellikler
 
 - Installs and configures a ready-to-use OpenVPN server
 - Iptables rules and forwarding managed in a seamless way
@@ -109,7 +106,7 @@ export PASS="1"
 - Choice to protect clients with a password (private key encryption)
 - Many other little things!
 
-## Compatibility
+## Uygunluk
 
 The script supports these OS and architectures:
 
