@@ -22,9 +22,9 @@ function checkOS() {
 
 		if [[ $ID == "debian" || $ID == "raspbian" ]]; then
 			if [[ $VERSION_ID -lt 9 ]]; then
-				echo "⚠️ Your version of Debian is not supported."
+				echo "⚠️ Kullandiginiz Debian surumu desteklenmiyor"
 				echo ""
-				echo "However, if you're using Debian >= 9 or unstable/testing then you can continue, at your own risk."
+				echo "Ancak, eger Debian >= 9 veya kararsız/test surumlerini kullaniyorsaniz riski goze alarak devam edebilirsiniz."
 				echo ""
 				until [[ $CONTINUE =~ (y|n) ]]; do
 					read -rp "Continue? [y/n]: " -e CONTINUE
@@ -37,9 +37,9 @@ function checkOS() {
 			OS="ubuntu"
 			MAJOR_UBUNTU_VERSION=$(echo "$VERSION_ID" | cut -d '.' -f1)
 			if [[ $MAJOR_UBUNTU_VERSION -lt 16 ]]; then
-				echo "⚠️ Your version of Ubuntu is not supported."
+				echo "⚠️ Kullandiginiz Ubuntu surumu desteklenmiyor"
 				echo ""
-				echo "However, if you're using Ubuntu >= 16.04 or beta, then you can continue, at your own risk."
+				echo "Ancak, eger Ubuntu >= 16.04 veya beta surumu kullaniyorsaniz riski goze alarak devam edebilirsiniz."
 				echo ""
 				until [[ $CONTINUE =~ (y|n) ]]; do
 					read -rp "Continue? [y/n]: " -e CONTINUE
@@ -57,9 +57,9 @@ function checkOS() {
 		if [[ $ID == "centos" ]]; then
 			OS="centos"
 			if [[ ! $VERSION_ID =~ (7|8) ]]; then
-				echo "⚠️ Your version of CentOS is not supported."
+				echo "⚠️ Kullandiginiz CentOS versiyonu desteklenmiyor."
 				echo ""
-				echo "The script only support CentOS 7 and CentOS 8."
+				echo "Bu script sadece CentOS 7 ve CentOS 8 ile kullanilabilir."
 				echo ""
 				exit 1
 			fi
@@ -67,9 +67,9 @@ function checkOS() {
 		if [[ $ID == "amzn" ]]; then
 			OS="amzn"
 			if [[ $VERSION_ID != "2" ]]; then
-				echo "⚠️ Your version of Amazon Linux is not supported."
+				echo "⚠️ Kullandiginiz Amazon Linux desteklenmiyor"
 				echo ""
-				echo "The script only support Amazon Linux 2."
+				echo "Bu script sadece Amazon Linux 2 sistemini destekler."
 				echo ""
 				exit 1
 			fi
@@ -77,18 +77,18 @@ function checkOS() {
 	elif [[ -e /etc/arch-release ]]; then
 		OS=arch
 	else
-		echo "Looks like you aren't running this installer on a Debian, Ubuntu, Fedora, CentOS, Amazon Linux 2 or Arch Linux system"
+		echo "Bu kurulum dosyasini Debian, Ubuntu, Fedora, CentOS, Amazon Linux 2 veya Arch Linux olan bir sistemde kullanmaniz gerekmektedir. "
 		exit 1
 	fi
 }
 
 function initialCheck() {
 	if ! isRoot; then
-		echo "Sorry, you need to run this as root"
+		echo "Üzgünüz, bu dosyayi root yetkileriyle calistirmaniz gerekiyor"
 		exit 1
 	fi
 	if ! tunAvailable; then
-		echo "TUN is not available"
+		echo "TUN mevcut degil"
 		exit 1
 	fi
 	checkOS
@@ -207,15 +207,15 @@ access-control: fd42:42:42:42::/112 allow' >>/etc/unbound/openvpn.conf
 }
 
 function installQuestions() {
-	echo "Welcome to the OpenVPN installer!"
-	echo "The git repository is available at: https://github.com/angristan/openvpn-install"
+	echo "OpenVPN kurulumuna hos geldiniz!"
+	echo "Git repositorysini bulabileceginiz link: https://github.com/b1sar/openvpn-install"
 	echo ""
 
-	echo "I need to ask you a few questions before starting the setup."
-	echo "You can leave the default options and just press enter if you are ok with them."
+	echo "Kuruluma baslamadan once size bir kac soru sormamiz gerekiyor"
+	echo "Eger secenekler size uygunsa varsayilan ayarlari kullanmak icin enter tusuna basarak gecebilirsiniz."
 	echo ""
-	echo "I need to know the IPv4 address of the network interface you want OpenVPN listening to."
-	echo "Unless your server is behind NAT, it should be your public IPv4 address."
+	echo "OpenVPN'in dinlemesini istediginiz network arayuzunun IPv4 adresini bilmemiz gerekiyor."
+	echo "Eger sunucunuz bir NAT'in arkasinda degilse, bu adres halka acik IPv4 adresiniz olmali."
 
 	# Detect public IPv4 address and pre-fill for the user
 	IP=$(ip -4 addr | sed -ne 's|^.* inet \([^/]*\)/.* scope global.*$|\1|p' | head -1)
@@ -230,15 +230,15 @@ function installQuestions() {
 	# If $IP is a private IP address, the server must be behind NAT
 	if echo "$IP" | grep -qE '^(10\.|172\.1[6789]\.|172\.2[0-9]\.|172\.3[01]\.|192\.168)'; then
 		echo ""
-		echo "It seems this server is behind NAT. What is its public IPv4 address or hostname?"
-		echo "We need it for the clients to connect to the server."
+		echo "Bu sunucunun bir NAT'in arkasinda oldugu goruluyor. Sunucunun IPv4 veya hostname'i nedir?"
+		echo "Kullanicilarin sunucuya baglanabilmesi icin buna ihtiyacimiz var."
 		until [[ $ENDPOINT != "" ]]; do
-			read -rp "Public IPv4 address or hostname: " -e ENDPOINT
+			read -rp "Halka acik IPv4 adresi veya hostname: " -e ENDPOINT
 		done
 	fi
 
 	echo ""
-	echo "Checking for IPv6 connectivity..."
+	echo "IPv6 baglanti durumu kontrol ediliyor..."
 	echo ""
 	# "ping6" and "ping -6" availability varies depending on the distribution
 	if type ping6 >/dev/null 2>&1; then
@@ -247,24 +247,24 @@ function installQuestions() {
 		PING6="ping -6 -c3 ipv6.google.com > /dev/null 2>&1"
 	fi
 	if eval "$PING6"; then
-		echo "Your host appears to have IPv6 connectivity."
+		echo "Hostunuzun IPv6 baglantisi oldugu goruluyor."
 		SUGGESTION="y"
 	else
-		echo "Your host does not appear to have IPv6 connectivity."
+		echo "Hostunuzun IPv6 baglantisi olmadigi goruluyor."
 		SUGGESTION="n"
 	fi
 	echo ""
 	# Ask the user if they want to enable IPv6 regardless its availability.
 	until [[ $IPV6_SUPPORT =~ (y|n) ]]; do
-		read -rp "Do you want to enable IPv6 support (NAT)? [y/n]: " -e -i $SUGGESTION IPV6_SUPPORT
+		read -rp "IPv6 destegini etkinlestirmek istiyor musunuz (NAT)? [y/n]: " -e -i $SUGGESTION IPV6_SUPPORT
 	done
 	echo ""
-	echo "What port do you want OpenVPN to listen to?"
-	echo "   1) Default: 1194"
-	echo "   2) Custom"
-	echo "   3) Random [49152-65535]"
+	echo "OpenVPN'in hangi portu kullanmasini istiyorsunuz="
+	echo "   1) Varsayilan: 1194"
+	echo "   2) Kendim girmek istiyorum"
+	echo "   3) Rastgele [49152-65535]"
 	until [[ $PORT_CHOICE =~ ^[1-3]$ ]]; do
-		read -rp "Port choice [1-3]: " -e -i 1 PORT_CHOICE
+		read -rp "Port tercihiniz [1-3]: " -e -i 1 PORT_CHOICE
 	done
 	case $PORT_CHOICE in
 	1)
@@ -272,7 +272,7 @@ function installQuestions() {
 		;;
 	2)
 		until [[ $PORT =~ ^[0-9]+$ ]] && [ "$PORT" -ge 1 ] && [ "$PORT" -le 65535 ]; do
-			read -rp "Custom port [1-65535]: " -e -i 1194 PORT
+			read -rp "Bir port giriniz [1-65535]: " -e -i 1194 PORT
 		done
 		;;
 	3)
@@ -282,8 +282,8 @@ function installQuestions() {
 		;;
 	esac
 	echo ""
-	echo "What protocol do you want OpenVPN to use?"
-	echo "UDP is faster. Unless it is not available, you shouldn't use TCP."
+	echo "OpenVPN'in hangi protokolu kullanmasini istiyorsunuz?"
+	echo "UDP daha hizlidir. UDP'nin olmadigi durumlar disinde TCP kullanmamalisiniz."
 	echo "   1) UDP"
 	echo "   2) TCP"
 	until [[ $PROTOCOL_CHOICE =~ ^[1-2]$ ]]; do
@@ -298,12 +298,12 @@ function installQuestions() {
 		;;
 	esac
 	echo ""
-	echo "What DNS resolvers do you want to use with the VPN?"
-	echo "   1) Current system resolvers (from /etc/resolv.conf)"
+	echo "VPN ile beraber hangi DNS cozuculeri kullanmak istiyorsunuz?"
+	echo "   1) Simdiki sistem cozuculerini (from /etc/resolv.conf)"
 	echo "   2) Self-hosted DNS Resolver (Unbound)"
 	echo "   3) Cloudflare (Anycast: worldwide)"
 	echo "   4) Quad9 (Anycast: worldwide)"
-	echo "   5) Quad9 uncensored (Anycast: worldwide)"
+	echo "   5) Quad9 sansursuz (Anycast: worldwide)"
 	echo "   6) FDN (France)"
 	echo "   7) DNS.WATCH (Germany)"
 	echo "   8) OpenDNS (Anycast: worldwide)"
@@ -311,19 +311,19 @@ function installQuestions() {
 	echo "   10) Yandex Basic (Russia)"
 	echo "   11) AdGuard DNS (Anycast: worldwide)"
 	echo "   12) NextDNS (Anycast: worldwide)"
-	echo "   13) Custom"
+	echo "   13) Kendim girmek istiyorum"
 	until [[ $DNS =~ ^[0-9]+$ ]] && [ "$DNS" -ge 1 ] && [ "$DNS" -le 13 ]; do
 		read -rp "DNS [1-12]: " -e -i 11 DNS
 		if [[ $DNS == 2 ]] && [[ -e /etc/unbound/unbound.conf ]]; then
 			echo ""
-			echo "Unbound is already installed."
-			echo "You can allow the script to configure it in order to use it from your OpenVPN clients"
-			echo "We will simply add a second server to /etc/unbound/unbound.conf for the OpenVPN subnet."
-			echo "No changes are made to the current configuration."
+			echo "Unbound hali hazirda kurulu"
+			echo "OpenVPN kullanicilariniz tarafindan kullanilmasi icin bunu ayarlamamiza izin verebilirsiniz."
+			echo "/etc/unbound/unbound.conf konumuna OpenVPN alt-agi icin  yeni bir sunucuyu ekleyecegiz."
+			echo "Guncel konfigurasyonda herhangi bi degisiklik yapilmaz"
 			echo ""
 
 			until [[ $CONTINUE =~ (y|n) ]]; do
-				read -rp "Apply configuration changes to Unbound? [y/n]: " -e CONTINUE
+				read -rp "Unbound'a yapilan konfigurasyon degisikliklerini uygula? [y/n]: " -e CONTINUE
 			done
 			if [[ $CONTINUE == "n" ]]; then
 				# Break the loop and cleanup
@@ -343,17 +343,17 @@ function installQuestions() {
 		fi
 	done
 	echo ""
-	echo "Do you want to use compression? It is not recommended since the VORACLE attack make use of it."
+	echo "Dosya sikistirma ozelligini kullanmak istiyor musunuz? Bu ozellik VORACLE atagi tarafindan kullanildigindan tavsiye etmeyiz"
 	until [[ $COMPRESSION_ENABLED =~ (y|n) ]]; do
-		read -rp"Enable compression? [y/n]: " -e -i n COMPRESSION_ENABLED
+		read -rp"Dosya sikistirmayi etkinlestir? [y/n]: " -e -i n COMPRESSION_ENABLED
 	done
 	if [[ $COMPRESSION_ENABLED == "y" ]]; then
-		echo "Choose which compression algorithm you want to use: (they are ordered by efficiency)"
+		echo "Hangi dosya sikistirma algoritmasini kullanmak istediginizi seciniz: (verimliliklerine gore sirali)"
 		echo "   1) LZ4-v2"
 		echo "   2) LZ4"
 		echo "   3) LZ0"
 		until [[ $COMPRESSION_CHOICE =~ ^[1-3]$ ]]; do
-			read -rp"Compression algorithm [1-3]: " -e -i 1 COMPRESSION_CHOICE
+			read -rp"Dosya sikistirma algoritmasi [1-3]: " -e -i 1 COMPRESSION_CHOICE
 		done
 		case $COMPRESSION_CHOICE in
 		1)
@@ -368,7 +368,7 @@ function installQuestions() {
 		esac
 	fi
 	echo ""
-	echo "Do you want to customize encryption settings?"
+	echo "Sifreleme ayarlarini ozellestirmek istiyor musunuz?"
 	echo "Unless you know what you're doing, you should stick with the default parameters provided by the script."
 	echo "Note that whatever you choose, all the choices presented in the script are safe. (Unlike OpenVPN's defaults)"
 	echo "See https://github.com/angristan/openvpn-install#security-and-encryption to learn more."
