@@ -29,17 +29,15 @@ Scripti çalıştırmak için root yetkilerine sahip olduğunuza ve TUN modülü
 Kurulum tamamlandıktan sonra yeni kullanıcı eklemek, varolan kullanıcıları silmek veya OpenVPN'i kaldırmak için scripti tekrar çalıştırmanız yeterli olacaktır. 
 
 Tekrar çalıştırdığınızda aşağıdaki seçeneklerden birini seçerek istediğiniz işlemi gerçekleştirebilirsiniz.
-- Add a client
-- Remove a client
-- Uninstall OpenVPN
+- Yeni bir kullanici eklemek
+- Var olan bir kullaniciyi kaldirmak
+- OpenVPN'i silmek/kaldirmak
 
 Tekrar çalıştırdıktan sonra ana dizininizde `.ovpn` dosyalar oluşturulacaktır, bunlar kullanıcı konfigürasyon dosyalarıdır. scp veya benzer bir program kullanarak uzak sunucunuzdan bu dosyaları indirdikten sonra OpenVPN uygulamanıza yükleyerek VPN kullanmaya başlayabilirsiniz.
 
 ---
 
 If you have any question, head to the [FAQ](#faq) first. Please read everything before opening an issue.
-
-**PLEASE do not send me emails or private messages asking for help.** The only place to get help is the issues. Other people may be able to help and in the future, other users may also run into the same issue as you. My time is not available for free just for you, you're not special.
 
 ### Otomatik Kurulum
 
@@ -138,7 +136,7 @@ This script is based on the great work of [Nyr and its contributors](https://git
 
 Since 2016, the two scripts have diverged and are not alike anymore, especially under the hood. The main goal of the script was enhanced security. But since then, the script has been completely rewritten and a lot a features have been added. The script is only compatible with recent distributions though, so if you need to use a very old server or client, I advise using Nyr's script.
 
-## Sık Sorulan Sorular
+## SSS
 
 More Q&A in [FAQ.md](FAQ.md).
 
