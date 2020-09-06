@@ -138,7 +138,7 @@ This script is based on the great work of [Nyr and its contributors](https://git
 
 Since 2016, the two scripts have diverged and are not alike anymore, especially under the hood. The main goal of the script was enhanced security. But since then, the script has been completely rewritten and a lot a features have been added. The script is only compatible with recent distributions though, so if you need to use a very old server or client, I advise using Nyr's script.
 
-## FAQ
+## Sık Sorulan Sorular
 
 More Q&A in [FAQ.md](FAQ.md).
 
@@ -185,7 +185,7 @@ Solutions that provision a ready to use OpenVPN server based on this script in o
 
 - AWS using Terraform at [`openvpn-terraform-install`](https://github.com/dumrauf/openvpn-terraform-install)
 
-## Contributing
+## Katkıda Bulunma
 
 ### Contributors hall-of-fame
 
@@ -200,11 +200,11 @@ Thanks ❤️
 [![](https://sourcerer.io/fame/angristan/angristan/openvpn-install/images/6)](https://github.com/angristan/openvpn-install/graphs/contributors)
 [![](https://sourcerer.io/fame/angristan/angristan/openvpn-install/images/7)](https://github.com/angristan/openvpn-install/graphs/contributors)
 
-### Code formatting
+### Kod Formatı
 
 We use [shellcheck](https://github.com/koalaman/shellcheck) and [shfmt](https://github.com/mvdan/sh) to enforce bash styling guidelines and good practices. They are executed for each commit / PR with GitHub Actions, so you can check the configuration [here](https://github.com/angristan/openvpn-install/blob/master/.github/workflows/push.yml).
 
-## Security and Encryption
+## Güvenlik ve Şifreleme
 
 OpenVPN's default settings are pretty weak regarding encryption. This script aims to improve that.
 
@@ -214,13 +214,13 @@ If you want more information about an option mentioned below, head to the [OpenV
 
 Most of OpenVPN's encryption-related stuff is managed by [Easy-RSA](https://github.com/OpenVPN/easy-rsa). Defaults parameters are in the [vars.example](https://github.com/OpenVPN/easy-rsa/blob/v3.0.7/easyrsa3/vars.example) file.
 
-### Compression
+### Sıkıştırma
 
 By default, OpenVPN doesn't enable compression. This script provides support for LZ0 and LZ4 (v1/v2) algorithms, the latter being more efficient.
 
 However, it is discouraged to use compression since the [VORACLE attack](https://protonvpn.com/blog/voracle-attack/) makes use of it.
 
-### TLS version
+### TLS versiyonu
 
 OpenVPN accepts TLS 1.0 by default, which is nearly [20 years old](https://en.wikipedia.org/wiki/Transport_Layer_Security#TLS_1.0).
 
@@ -228,7 +228,7 @@ With `tls-version-min 1.2` we enforce TLS 1.2, which the best protocol available
 
 TLS 1.2 is supported since OpenVPN 2.3.3.
 
-### Certificate
+### Sertifika
 
 OpenVPN uses an RSA certificate with a 2048 bits key by default.
 
