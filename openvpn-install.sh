@@ -369,12 +369,12 @@ function installQuestions() {
 	fi
 	echo ""
 	echo "Sifreleme ayarlarini ozellestirmek istiyor musunuz?"
-	echo "Unless you know what you're doing, you should stick with the default parameters provided by the script."
-	echo "Note that whatever you choose, all the choices presented in the script are safe. (Unlike OpenVPN's defaults)"
-	echo "See https://github.com/angristan/openvpn-install#security-and-encryption to learn more."
+	echo "Ne yaptiginizi tam olarak bilmiyorsaniz, size sundugumuz varsayilan ayarlari kullanmanizi oneririz."
+	echo "Not: Neyi sectiginizden bagimsiz olarak, burada sunulan tum parametreler guvenlidir.(OpenVPN'in varsayilan ayarlari gibi degil yani)"
+	echo "Daha fazla bilgi icin bkz: https://github.com/b1sar/openvpn-install#g%C3%BCvenlik-ve-%C5%9Fifreleme "
 	echo ""
 	until [[ $CUSTOMIZE_ENC =~ (y|n) ]]; do
-		read -rp "Customize encryption settings? [y/n]: " -e -i n CUSTOMIZE_ENC
+		read -rp "Sifreleme ayarlarini ozellestirmek istiyor musunuz? [y/n]: " -e -i n CUSTOMIZE_ENC
 	done
 	if [[ $CUSTOMIZE_ENC == "n" ]]; then
 		# Use default, sane and fast parameters
@@ -388,7 +388,7 @@ function installQuestions() {
 		TLS_SIG="1" # tls-crypt
 	else
 		echo ""
-		echo "Choose which cipher you want to use for the data channel:"
+		echo "Data channel icin hangi sifreleme algoritmasini kullanmak istediginizi seciniz:"
 		echo "   1) AES-128-GCM (recommended)"
 		echo "   2) AES-192-GCM"
 		echo "   3) AES-256-GCM"
@@ -396,7 +396,7 @@ function installQuestions() {
 		echo "   5) AES-192-CBC"
 		echo "   6) AES-256-CBC"
 		until [[ $CIPHER_CHOICE =~ ^[1-6]$ ]]; do
-			read -rp "Cipher [1-6]: " -e -i 1 CIPHER_CHOICE
+			read -rp "Sifreleme Algoritmasi [1-6]: " -e -i 1 CIPHER_CHOICE
 		done
 		case $CIPHER_CHOICE in
 		1)
@@ -419,21 +419,21 @@ function installQuestions() {
 			;;
 		esac
 		echo ""
-		echo "Choose what kind of certificate you want to use:"
-		echo "   1) ECDSA (recommended)"
+		echo "Hangi sertifikayi kullanmak istediginizi seciniz:"
+		echo "   1) ECDSA (onerilir)"
 		echo "   2) RSA"
 		until [[ $CERT_TYPE =~ ^[1-2]$ ]]; do
-			read -rp"Certificate key type [1-2]: " -e -i 1 CERT_TYPE
+			read -rp"Sertifika anahtar tipi [1-2]: " -e -i 1 CERT_TYPE
 		done
 		case $CERT_TYPE in
 		1)
 			echo ""
-			echo "Choose which curve you want to use for the certificate's key:"
-			echo "   1) prime256v1 (recommended)"
+			echo "Sertifika anahtari icin hangi egriyi(curve) kullanmak istediginizi seciniz:"
+			echo "   1) prime256v1 (onerilir)"
 			echo "   2) secp384r1"
 			echo "   3) secp521r1"
 			until [[ $CERT_CURVE_CHOICE =~ ^[1-3]$ ]]; do
-				read -rp"Curve [1-3]: " -e -i 1 CERT_CURVE_CHOICE
+				read -rp"Egri(Curve) [1-3]: " -e -i 1 CERT_CURVE_CHOICE
 			done
 			case $CERT_CURVE_CHOICE in
 			1)
@@ -449,12 +449,12 @@ function installQuestions() {
 			;;
 		2)
 			echo ""
-			echo "Choose which size you want to use for the certificate's RSA key:"
-			echo "   1) 2048 bits (recommended)"
+			echo "Sertifikanin RSA anahtarinin hangi boyutta olmasını istersiniz:"
+			echo "   1) 2048 bits (onerilir)"
 			echo "   2) 3072 bits"
 			echo "   3) 4096 bits"
 			until [[ $RSA_KEY_SIZE_CHOICE =~ ^[1-3]$ ]]; do
-				read -rp "RSA key size [1-3]: " -e -i 1 RSA_KEY_SIZE_CHOICE
+				read -rp "RSA anahtar boyutu [1-3]: " -e -i 1 RSA_KEY_SIZE_CHOICE
 			done
 			case $RSA_KEY_SIZE_CHOICE in
 			1)
@@ -470,13 +470,13 @@ function installQuestions() {
 			;;
 		esac
 		echo ""
-		echo "Choose which cipher you want to use for the control channel:"
+		echo "Control channel icin hangi sifreleme algoritmasini kullanmak istediginizi seciniz:"
 		case $CERT_TYPE in
 		1)
-			echo "   1) ECDHE-ECDSA-AES-128-GCM-SHA256 (recommended)"
+			echo "   1) ECDHE-ECDSA-AES-128-GCM-SHA256 (onerilir)"
 			echo "   2) ECDHE-ECDSA-AES-256-GCM-SHA384"
 			until [[ $CC_CIPHER_CHOICE =~ ^[1-2]$ ]]; do
-				read -rp"Control channel cipher [1-2]: " -e -i 1 CC_CIPHER_CHOICE
+				read -rp"Control channel sifreleme algoritmasi [1-2]: " -e -i 1 CC_CIPHER_CHOICE
 			done
 			case $CC_CIPHER_CHOICE in
 			1)
@@ -488,10 +488,10 @@ function installQuestions() {
 			esac
 			;;
 		2)
-			echo "   1) ECDHE-RSA-AES-128-GCM-SHA256 (recommended)"
+			echo "   1) ECDHE-RSA-AES-128-GCM-SHA256 (onerilir)"
 			echo "   2) ECDHE-RSA-AES-256-GCM-SHA384"
 			until [[ $CC_CIPHER_CHOICE =~ ^[1-2]$ ]]; do
-				read -rp"Control channel cipher [1-2]: " -e -i 1 CC_CIPHER_CHOICE
+				read -rp"Control channel sifreleme algoritmasi [1-2]: " -e -i 1 CC_CIPHER_CHOICE
 			done
 			case $CC_CIPHER_CHOICE in
 			1)
@@ -504,21 +504,21 @@ function installQuestions() {
 			;;
 		esac
 		echo ""
-		echo "Choose what kind of Diffie-Hellman key you want to use:"
-		echo "   1) ECDH (recommended)"
+		echo "Hangi tur Diffie-Hellman anahtari kullanmak istediginizi seciniz:"
+		echo "   1) ECDH (onerilir)"
 		echo "   2) DH"
 		until [[ $DH_TYPE =~ [1-2] ]]; do
-			read -rp"DH key type [1-2]: " -e -i 1 DH_TYPE
+			read -rp"DH anahtar tipi [1-2]: " -e -i 1 DH_TYPE
 		done
 		case $DH_TYPE in
 		1)
 			echo ""
-			echo "Choose which curve you want to use for the ECDH key:"
-			echo "   1) prime256v1 (recommended)"
+			echo "ECDH anahtari icin hangi egriyi(curve) kullanmak istediginizi seciniz:"
+			echo "   1) prime256v1 (onerilir)"
 			echo "   2) secp384r1"
 			echo "   3) secp521r1"
 			while [[ $DH_CURVE_CHOICE != "1" && $DH_CURVE_CHOICE != "2" && $DH_CURVE_CHOICE != "3" ]]; do
-				read -rp"Curve [1-3]: " -e -i 1 DH_CURVE_CHOICE
+				read -rp"Egri(curve) [1-3]: " -e -i 1 DH_CURVE_CHOICE
 			done
 			case $DH_CURVE_CHOICE in
 			1)
@@ -534,12 +534,12 @@ function installQuestions() {
 			;;
 		2)
 			echo ""
-			echo "Choose what size of Diffie-Hellman key you want to use:"
-			echo "   1) 2048 bits (recommended)"
+			echo "Diffie-Hellman anahtarinin hangi boyutta olmasını istediginizi seciniz:"
+			echo "   1) 2048 bits (Onerilir)"
 			echo "   2) 3072 bits"
 			echo "   3) 4096 bits"
 			until [[ $DH_KEY_SIZE_CHOICE =~ ^[1-3]$ ]]; do
-				read -rp "DH key size [1-3]: " -e -i 1 DH_KEY_SIZE_CHOICE
+				read -rp "DH anahtar boyutu [1-3]: " -e -i 1 DH_KEY_SIZE_CHOICE
 			done
 			case $DH_KEY_SIZE_CHOICE in
 			1)
@@ -558,15 +558,17 @@ function installQuestions() {
 		# The "auth" options behaves differently with AEAD ciphers
 		if [[ $CIPHER =~ CBC$ ]]; then
 			echo "The digest algorithm authenticates data channel packets and tls-auth packets from the control channel."
+			echo "Turkcesi: Ozetleme algoritmasi(hash algoritmasi) data channel ve tls-auth paketlerini control kanalindan yetkilendirir."
 		elif [[ $CIPHER =~ GCM$ ]]; then
 			echo "The digest algorithm authenticates tls-auth packets from the control channel."
+			echo "Turkcesi: Ozetleme algoritmasi(hash algoritmasi) tls-auth paketlerini kontrol kanali uzerinden yetkilendirir."
 		fi
-		echo "Which digest algorithm do you want to use for HMAC?"
-		echo "   1) SHA-256 (recommended)"
+		echo "HMAC icin hangi ozetleme(hash) algoritmasini kullanmak istersiniz?"
+		echo "   1) SHA-256 (onerilir)"
 		echo "   2) SHA-384"
 		echo "   3) SHA-512"
 		until [[ $HMAC_ALG_CHOICE =~ ^[1-3]$ ]]; do
-			read -rp "Digest algorithm [1-3]: " -e -i 1 HMAC_ALG_CHOICE
+			read -rp "Hash algoritmasi [1-3]: " -e -i 1 HMAC_ALG_CHOICE
 		done
 		case $HMAC_ALG_CHOICE in
 		1)
@@ -580,20 +582,20 @@ function installQuestions() {
 			;;
 		esac
 		echo ""
-		echo "You can add an additional layer of security to the control channel with tls-auth and tls-crypt"
-		echo "tls-auth authenticates the packets, while tls-crypt authenticate and encrypt them."
-		echo "   1) tls-crypt (recommended)"
+		echo "tls-auth ve tls-crypt kullanarak kontrol kanalina ek bir guvenlik katmani ekleyebilirsiniz"
+		echo "tls-auth paketlerin kimlik dogrulamasini yapar, tls-crypt ise hem kimlik dogrulamasi yapar hem de onlari sifreler."
+		echo "   1) tls-crypt (onerilir)"
 		echo "   2) tls-auth"
 		until [[ $TLS_SIG =~ [1-2] ]]; do
-			read -rp "Control channel additional security mechanism [1-2]: " -e -i 1 TLS_SIG
+			read -rp "Kontrol kanali ekstra guvenlik mekanizması [1-2]: " -e -i 1 TLS_SIG
 		done
 	fi
 	echo ""
-	echo "Okay, that was all I needed. We are ready to setup your OpenVPN server now."
-	echo "You will be able to generate a client at the end of the installation."
+	echo "Tamam, tum ihtiyacimiz olan bilgiler bunlardi. OpenVPN sunucunuzu kurmaya haziriz."
+	echo "Bu kurulumun sonunda bir OpenVPN kullanicisi olusturabileceksiniz."
 	APPROVE_INSTALL=${APPROVE_INSTALL:-n}
 	if [[ $APPROVE_INSTALL =~ n ]]; then
-		read -n1 -r -p "Press any key to continue..."
+		read -n1 -r -p "Devam etmek icin herhangi bi tusa basiniz..."
 	fi
 }
 
@@ -633,10 +635,10 @@ function installOpenVPN() {
 	# $NIC can not be empty for script rm-openvpn-rules.sh
 	if [[ -z $NIC ]]; then
 		echo
-		echo "Can not detect public interface."
-		echo "This needs for setup MASQUERADE."
+		echo "Halka acik arayuz bulunamadi"
+		echo "MASQUERADE kurmak icin bu gerekli"
 		until [[ $CONTINUE =~ (y|n) ]]; do
-			read -rp "Continue? [y/n]: " -e CONTINUE
+			read -rp "Devam et? [y/n]: " -e CONTINUE
 		done
 		if [[ $CONTINUE == "n" ]]; then
 			exit 1
@@ -1039,32 +1041,32 @@ verb 3" >>/etc/openvpn/client-template.txt
 
 	# Generate the custom client.ovpn
 	newClient
-	echo "If you want to add more clients, you simply need to run this script another time!"
+	echo "Daha fazla kullanici eklemek icin bu dosyayi(scripti) tekrar calistirmaniz yeterli!"
 }
 
 function newClient() {
 	echo ""
-	echo "Tell me a name for the client."
-	echo "The name must consist of alphanumeric character. It may also include an underscore or a dash."
+	echo "Olusturmak istediginiz kullanici icin bir ad girin:"
+	echo "Kullanici adi alfanumerik karakterlerden olusmalidir. Alt_tire veya diyez isareti de icerebilir."
 
 	until [[ $CLIENT =~ ^[a-zA-Z0-9_-]+$ ]]; do
-		read -rp "Client name: " -e CLIENT
+		read -rp "Kullanici adi: " -e CLIENT
 	done
 
 	echo ""
-	echo "Do you want to protect the configuration file with a password?"
-	echo "(e.g. encrypt the private key with a password)"
-	echo "   1) Add a passwordless client"
-	echo "   2) Use a password for the client"
+	echo "Konfigurasyon dosyasini sifreyle korumak istiyor musunuz?"
+	echo "(e.g. ozel anahtari sifreyle(password) sifrele(encrypt)"
+	echo "   1) Sifresiz bir kullanici ekle"
+	echo "   2) Kullanici icin bir sifre olustur"
 
 	until [[ $PASS =~ ^[1-2]$ ]]; do
-		read -rp "Select an option [1-2]: " -e -i 1 PASS
+		read -rp "Bir secenek giriniz [1-2]: " -e -i 1 PASS
 	done
 
 	CLIENTEXISTS=$(tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep -c -E "/CN=$CLIENT\$")
 	if [[ $CLIENTEXISTS == '1' ]]; then
 		echo ""
-		echo "The specified client CN was already found in easy-rsa, please choose another name."
+		echo "Belirttiginiz kullanici CN halihazirda easy-rsa'da bulunmaktadir. Lutfen degisik bir ad seciniz."
 		exit
 	else
 		cd /etc/openvpn/easy-rsa/ || return
@@ -1073,11 +1075,11 @@ function newClient() {
 			./easyrsa build-client-full "$CLIENT" nopass
 			;;
 		2)
-			echo "⚠️ You will be asked for the client password below ⚠️"
+			echo "⚠️ Size asagida kullanicinin sifresi sorulacak. ⚠️"
 			./easyrsa build-client-full "$CLIENT"
 			;;
 		esac
-		echo "Client $CLIENT added."
+		echo "Kullanici $CLIENT eklendi."
 	fi
 
 	# Home directory of the user, where the client configuration (.ovpn) will be written
@@ -1127,8 +1129,8 @@ function newClient() {
 	} >>"$homeDir/$CLIENT.ovpn"
 
 	echo ""
-	echo "The configuration file has been written to $homeDir/$CLIENT.ovpn."
-	echo "Download the .ovpn file and import it in your OpenVPN client."
+	echo "Konfigurasyon dosyasinin yazildiği dosyann konumu: $homeDir/$CLIENT.ovpn."
+	echo ".ovpn dosyasini indirip telefon veya bilgisayarinizdaki OpenVPN uygulamaniza yukleyin."
 
 	exit 0
 }
@@ -1137,18 +1139,18 @@ function revokeClient() {
 	NUMBEROFCLIENTS=$(tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep -c "^V")
 	if [[ $NUMBEROFCLIENTS == '0' ]]; then
 		echo ""
-		echo "You have no existing clients!"
+		echo "Herhangi bi kullaniciniz bulunmamaktadir!"
 		exit 1
 	fi
 
 	echo ""
-	echo "Select the existing client certificate you want to revoke"
+	echo "Iptal etmek istediginiz kullanici sertifikasini seciniz"
 	tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep "^V" | cut -d '=' -f 2 | nl -s ') '
 	until [[ $CLIENTNUMBER -ge 1 && $CLIENTNUMBER -le $NUMBEROFCLIENTS ]]; do
 		if [[ $CLIENTNUMBER == '1' ]]; then
-			read -rp "Select one client [1]: " CLIENTNUMBER
+			read -rp "Bir kullanici sec [1]: " CLIENTNUMBER
 		else
-			read -rp "Select one client [1-$NUMBEROFCLIENTS]: " CLIENTNUMBER
+			read -rp "Bir kullanici sec [1-$NUMBEROFCLIENTS]: " CLIENTNUMBER
 		fi
 	done
 	CLIENT=$(tail -n +2 /etc/openvpn/easy-rsa/pki/index.txt | grep "^V" | cut -d '=' -f 2 | sed -n "$CLIENTNUMBER"p)
@@ -1163,7 +1165,7 @@ function revokeClient() {
 	sed -i "/^$CLIENT,.*/d" /etc/openvpn/ipp.txt
 
 	echo ""
-	echo "Certificate for client $CLIENT revoked."
+	echo "$CLIENT kullanicisinin sertifikasi iptal edildi."
 }
 
 function removeUnbound() {
@@ -1173,8 +1175,8 @@ function removeUnbound() {
 
 	until [[ $REMOVE_UNBOUND =~ (y|n) ]]; do
 		echo ""
-		echo "If you were already using Unbound before installing OpenVPN, I removed the configuration related to OpenVPN."
-		read -rp "Do you want to completely remove Unbound? [y/n]: " -e REMOVE_UNBOUND
+		echo "OpenVPN kurulmadan once halihazirda Unbound kullaniyorduysaniz, OpenVPN ile alakali tum konfigurasyonlari sildik"
+		read -rp "Unbound'un tamamen silinmesini istiyor musunuz? [y/n]: " -e REMOVE_UNBOUND
 	done
 
 	if [[ $REMOVE_UNBOUND == 'y' ]]; then
@@ -1194,17 +1196,17 @@ function removeUnbound() {
 		rm -rf /etc/unbound/
 
 		echo ""
-		echo "Unbound removed!"
+		echo "Unbound silindi!"
 	else
 		systemctl restart unbound
 		echo ""
-		echo "Unbound wasn't removed."
+		echo "Unbound silinmedi."
 	fi
 }
 
 function removeOpenVPN() {
 	echo ""
-	read -rp "Do you really want to remove OpenVPN? [y/n]: " -e -i n REMOVE
+	read -rp "OpenVPN'i silmek istediginize emin misiniz? [y/n]: " -e -i n REMOVE
 	if [[ $REMOVE == 'y' ]]; then
 		# Get OpenVPN port from the configuration
 		PORT=$(grep '^port ' /etc/openvpn/server.conf | cut -d " " -f 2)
@@ -1271,26 +1273,26 @@ function removeOpenVPN() {
 			removeUnbound
 		fi
 		echo ""
-		echo "OpenVPN removed!"
+		echo "OpenVPN kaldirildi!"
 	else
 		echo ""
-		echo "Removal aborted!"
+		echo "Silinme islemi iptal edildi!"
 	fi
 }
 
 function manageMenu() {
-	echo "Welcome to OpenVPN-install!"
-	echo "The git repository is available at: https://github.com/angristan/openvpn-install"
+	echo "OpenVPN-install'a hos geldiniz!"
+	echo "Github repositorisini surada bulabilirsiniz: https://github.com/b1sar/openvpn-install"
 	echo ""
-	echo "It looks like OpenVPN is already installed."
+	echo "OpenVPN hali hazirda kurulu gibi gorunuyor"
 	echo ""
-	echo "What do you want to do?"
-	echo "   1) Add a new user"
-	echo "   2) Revoke existing user"
-	echo "   3) Remove OpenVPN"
-	echo "   4) Exit"
+	echo "Ne yapmak istiyorsunuz?"
+	echo "   1) Yeni bir kullanici eklemek"
+	echo "   2) Var olan bir kullaniciyi kaldirmak"
+	echo "   3) OpenVPN'i silmek/kaldirmak"
+	echo "   4) Cikis"
 	until [[ $MENU_OPTION =~ ^[1-4]$ ]]; do
-		read -rp "Select an option [1-4]: " MENU_OPTION
+		read -rp "Seciminiz? [1-4]: " MENU_OPTION
 	done
 
 	case $MENU_OPTION in
