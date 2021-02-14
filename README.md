@@ -37,13 +37,13 @@ Tekrar çalıştırdıktan sonra ana dizininizde `.ovpn` dosyalar oluşturulacak
 
 ---
 
-If you have any question, head to the [FAQ](#faq) first. Please read everything before opening an issue.
+Sorularınız için [FAQ](#faq)'a bakabilirsiniz. Lütfen issue açmadan önce buradaki bilgileri okuyun.
 
 ### Otomatik Kurulum
 
-It's also possible to run the script headless, e.g. without waiting for user input, in an automated manner.
+Scripti kullanıcı girişine gerek duyulmayacak şekilde otomatik olarak da çalıştırabilirsiniz.
 
-Example usage:
+Otomatik kurulum yapmak için örnek kullanım:
 
 ```bash
 AUTO_INSTALL=y ./openvpn-install.sh
@@ -54,9 +54,11 @@ export AUTO_INSTALL=y
 ./openvpn-install.sh
 ```
 
-A default set of variables will then be set, by passing the need for user input.
+Scripti bu şekilde kullandığınızda değişkenlere otomatik değerler aktarılarak OpenVPN kurulumu sağlanacaktır.
 
-If you want to customise your installation, you can export them or specify them on the same line, as shown above.
+
+Kurulumda kullanılan değişkenlerden değiştirmek istediklerinizi yukarıdaki şekilde önce export edip sonra scripti çalıştırarak sağlayabilirsiniz.
+Bazı değişkenler ve default değerleri aşağıdaki gibidir:
 
 - `APPROVE_INSTALL=y`
 - `APPROVE_IP=y`
@@ -69,19 +71,17 @@ If you want to customise your installation, you can export them or specify them 
 - `CLIENT=clientname`
 - `PASS=1`
 
-If the server is behind NAT, you can specify its endpoint with the `ENDPOINT` variable. If the endpoint is the public IP address which it is behind, you can use `ENDPOINT=$(curl -4 ifconfig.co)` (the script will default to this). The endpoint can be an IPv4 or a domain.
+Eğer sunucunuz bir NAT'ın (Network Address Translation) arkasındaysa, endpointini `ENDPOINT` değişkeniyle belirtebilirsiniz. Eğer enpoint public IP adresi ile aynıysa, `ENDPOINT=$(curl -4 ifconfig.co)` yapısını kullanabilirsiniz(script buradaki IP'yi kullanacaktır). Enpoint IPv4 adresi veya domain olabilir.
 
-Other variables can be set depending on your choice (encryption, compression). You can search for them in the `installQuestions()` function of the script.
+Diğer değişkenleri (şifreleme, sıkıştırma) istediğiniz şekilde değiştirebilir veya olduğu gibi kullanabilirsiniz. Bu değişkenleri script içindeki `installQuestions()` fonksiyonunda bulabilirsiniz.
 
-Password-protected clients are not supported by the headless installation method since user input is expected by Easy-RSA.
-
-The headless install is more-or-less idempotent, in that it has been made safe to run multiple times with the same parameters, e.g. by a state provisioner like Ansible/Terraform/Salt/Chef/Puppet. It will only install and regenerate the Easy-RSA PKI if it doesn't already exist, and it will only install OpenVPN and other upstream dependencies if OpenVPN isn't already installed. It will recreate all local config and re-generate the client file on each headless run.
+Script, parametreleri bir kere değiştirdikten sonra tekrar çalıştırdığınızda da aynı parametreleri kullanacak şekilde ayarlandığından otomatik kurulumun elle kurulumdan çok büyük bir farkı yoktur. Otomatik kurulumda yapılan şey sadece şudur: eğer Easy-RSA PKI kurulu değilse onu kurup tekrar üretir ve eğer OpenVPN kurulu değilse OpenVPN ve gerekli bağımlılıklarını kurup gerekli konfigürasyonları yapar. Her otomatik çalıştırımda script lokaldeki konfigürasyonları tekrardan oluşturup yeni bir client dosyası oluşturur.
 
 ### Otomatik Kullanıcı Ekleme
 
-It's also possible to automate the addition of a new user. Here, the key is to provide the (string) value of the `MENU_OPTION` variable along with the remaining mandatory variables before invoking the script.
+Yeni kullanıcı ekleme işlemi de otomatize edilebilir. Scripti çalıştırmadan önce  `MENU_OPTION` değişkeninin değerini ve diğer gerekli değişkenleri set etmeniz yeterli olacaktır.
 
-The following Bash script adds a new user `foo` to an existing OpenVPN configuration
+Aşağıdaki bash scripti var olan OpenVPN konfigürasyonuna `foo` adında yeni bir kullanıcı ekler. `MENU_OPTION` değerinin 1 değil "1" olduğuna, yani değerinin çift tırnak içinde belirtildiğine dikkat edin.
 
 ```bash
 #!/bin/bash
@@ -93,25 +93,25 @@ export PASS="1"
 
 ## Özellikler
 
-- Installs and configures a ready-to-use OpenVPN server
-- Iptables rules and forwarding managed in a seamless way
-- If needed, the script can cleanly remove OpenVPN, including configuration and iptables rules
-- Customisable encryption settings, enhanced default settings (see [Security and Encryption](#security-and-encryption) below)
-- OpenVPN 2.4 features, mainly encryption improvements (see [Security and Encryption](#security-and-encryption) below)
-- Variety of DNS resolvers to be pushed to the clients
+- Kullanıma hazır bir OpenVPN sunucusunun kurulumunu ve konfigürasyonunu yapar.
+- Iptables kurallarını ve yönlendirmeleri otomatik olarak gerçekleştirir.
+- Eğer gerekirse script OpenVPN'i iptables kurallarını ve her türlü konfigürasyonu da silebilir.
+- Özelleştirilebilir şifreleme ayarları, güvenilir default ayarlar. (bkz. [Security and Encryption](#security-and-encryption)).
+- Şifreleme geliştirmeleriyle beraber OpenVPN 2.4 özellikleri (bkz. [Security and Encryption](#security-and-encryption))
+- Client'larda kullanılabilecek çeşitli DNS resolverlar
 - Choice to use a self-hosted resolver with Unbound (supports already existing Unbound installations)
-- Choice between TCP and UDP
-- NATed IPv6 support
-- Compression disabled by default to prevent VORACLE. LZ4 (v1/v2) and LZ0 algorithms available otherwise.
+- TCP ve UDP arasında seçim yapma seçeneği
+- NAT ile beraber IPv6 desteği
+- [VORACLE](https://openvpn.net/security-advisory/the-voracle-attack-vulnerability/) atağını engellemek için sıkıştırma özelliği varsayılan olarak kapalı.
 - Unprivileged mode: run as `nobody`/`nogroup`
-- Block DNS leaks on Windows 10
-- Randomised server certificate name
-- Choice to protect clients with a password (private key encryption)
-- Many other little things!
+- Windows 10'da DNS sızmalarını engelleme
+- Rastgelelileştirilmiş sunucu sertifika adı
+- Kullanıcıların güvenliklerini arttırmak için şifre belirleyebilme (private key encryption)
+- ve daha bir çok küçük şey!
 
 ## Uygunluk
 
-The script supports these OS and architectures:
+Bu script aşağıdaki işletim sistemi ve mimarileri destekler: 
 
 |                 | i386 | amd64 | armhf | arm64 |
 | --------------- | ---- | ----- | ----- | ----- |
