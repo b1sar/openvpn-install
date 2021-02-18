@@ -13,7 +13,7 @@ Bu scripti kullanarak extra bir adım atmaya gerek kalmadan bir kaç saniye içi
 İlk olarak scripti uzak sunucuya indirip çalıştırılabilir hale getirin(Not: Bu komutları kiraladığınız hosting firmasındaki VPS makinesinde çalıştırmanız gerekiyor, kendi bilgisayarınızda değil):
 
 ```bash
-curl -O https://raw.githubusercontent.com/b1sar/openvpn-install/master/openvpn-install.sh
+curl -O https://raw.githubusercontent.com/angristan/openvpn-install/master/openvpn-install.sh
 chmod +x openvpn-install.sh
 ```
 
