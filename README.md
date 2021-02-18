@@ -6,38 +6,36 @@ Bu script [angristan ve katkı sağlayan insanların](https://github.com/angrist
 
 Script'teki ingilizce kısımları aşama aşama türkçeye çevirmeyi ve ek olarak bir kaç VPS firmasını kullanarak OpenVPN'in nasıl kurulabileceğini gösteren bir kaç tutorial eklemeyi düşünüyorum.
 
-Bu scripti kullanarak bir kaç saniye içinde VPN sunucunuzu kurabilirsiniz. Ekstra hiç bir şey yapmanıza gerek yok.
+Bu scripti kullanarak extra bir adım atmaya gerek kalmadan bir kaç saniye içinde VPN sunucunuzu kurabilirsiniz.
 
 ## Kullanım
 
-İlk olarak scripti uzak sunucuya indirip çalıştırılabilir hale getirin:
+İlk olarak scripti uzak sunucuya indirip çalıştırılabilir hale getirin(Not: Bu komutları kiraladığınız hosting firmasındaki VPS makinesinde çalıştırmanız gerekiyor, kendi bilgisayarınızda değil):
 
 ```bash
 curl -O https://raw.githubusercontent.com/b1sar/openvpn-install/master/openvpn-install.sh
 chmod +x openvpn-install.sh
 ```
 
-Sonrasında çalıştırın:
+Sonrasında aşağıdaki çalıştırın:
 
 ```sh
 ./openvpn-install.sh
 ```
 
-Scripti çalıştırmak için root yetkilerine sahip olduğunuza ve TUN modülünün etkin olduğundan emin olun.
-
-İlk çalıştırdığınızda her adımda sorulan sorulara cevap vererek VPN sunucunuzun kurulumunu gerçekleştirebilirsiniz.
+İlk çalıştırdığınızda her adımda sorulan sorulara cevap vererek VPN sunucunuzun kurulumunu gerçekleştirmiş olacaksınız. (Scripti çalıştırmak için root yetkilerine sahip olduğunuza ve TUN modülünün etkin olduğundan emin olun.)
 Kurulum tamamlandıktan sonra yeni kullanıcı eklemek, varolan kullanıcıları silmek veya OpenVPN'i kaldırmak için scripti tekrar çalıştırmanız yeterli olacaktır. 
 
-Tekrar çalıştırdığınızda aşağıdaki seçeneklerden birini seçerek istediğiniz işlemi gerçekleştirebilirsiniz.
+Scripti ilk çalıştırdığınızda OpenVPN'i kurmuş olacaksınız. 
+Sonrasında ise 
 - Yeni bir kullanici eklemek
 - Var olan bir kullaniciyi kaldirmak
-- OpenVPN'i silmek/kaldirmak
-
-Tekrar çalıştırdıktan sonra ana dizininizde `.ovpn` dosyalar oluşturulacaktır, bunlar kullanıcı konfigürasyon dosyalarıdır. scp veya benzer bir program kullanarak uzak sunucunuzdan bu dosyaları indirdikten sonra OpenVPN uygulamanıza yükleyerek VPN kullanmaya başlayabilirsiniz.
+- veya OpenVPN'i silmek/kaldirmak
+için aynı scripti tekrar çalıştırmanız gerekir. Scripti tekrar çalıştırdığınızda ana dizininizde `.ovpn` dosyaları oluşturulur, bunlar kullanıcı konfigürasyon dosyalarıdır. `scp` veya benzer bir program kullanarak uzak sunucunuzdan bu dosyaları kendi bilgisayarınıza indirdikten sonra OpenVPN uygulamanıza yükleyerek VPN kullanmaya başlayabilirsiniz.
 
 ---
 
-Sorularınız için [FAQ](#faq)'a bakabilirsiniz. Lütfen issue açmadan önce buradaki bilgileri okuyun.
+Sorularınız için [FAQ](#faq) dosyasına bakabilirsiniz. Lütfen issue açmadan önce buradaki bilgileri okuyun.
 
 ### Otomatik Kurulum
 
@@ -124,11 +122,11 @@ Bu script aşağıdaki işletim sistemi ve mimarileri destekler:
 | Ubuntu 16.04    | ✅   | ✅    | ❌    | ❌    |
 | Ubuntu >= 18.04 | ✅   | ✅    | ✅    | ✅    |
 
-To be noted:
+Önemli notlar:
 
-- It should work on Debian 8+ and Ubuntu 16.04+. But versions not in the table above are not officially supported.
-- The script requires `systemd`.
-- The script is regularly tested against `amd64` only.
+- Script Debian 8+ ve Ubuntu 16.04+ ve daha güncel versiyonlarında çalışmalı. Ancak yukarıdaki tabloda bulunmayan versiyonların resmi olarak desteklenmedikleri not edilmeli.
+- Scriptin çalışabilmesi için çalıştırıldığı ortamda `systemd` kurulu olması gerekir.
+- Script düzenli olarak `amd64`de test edilmektedir.
 
 ## Fork
 
